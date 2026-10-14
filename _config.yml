@@ -1,0 +1,28 @@
+# Site settings. Edit these, then rebuild (GitHub Pages rebuilds on every push).
+title: Christopher Liem
+description: >-
+  MIT computer science student building perception, autonomy, and the systems
+  underneath them: sensor fusion, learned models for control, and hardware.
+author: Christopher Liem
+
+# For a user site (username.github.io) leave baseurl empty.
+# For a project site (username.github.io/repo-name) set baseurl: "/repo-name".
+url: ""
+baseurl: ""
+
+# Contact links. Leave a value empty to hide it.
+email: cliem@mit.edu
+linkedin: christopher-liem        # linkedin.com/in/<this>
+github: ""                        # your GitHub username, e.g. "cliem"
+
+# Optional: drop a PDF into assets/ and point to it to show a "Download resume" link.
+# Use a copy without your phone number, since this page is public.
+resume_pdf: ""                    # e.g. /assets/Christopher_Liem_Resume.pdf
+
+markdown: kramdown
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .bundle

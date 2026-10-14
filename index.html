@@ -1,0 +1,121 @@
+---
+layout: default
+---
+{% assign p = site.data.profile %}
+
+<section class="hero">
+  <canvas class="hero-grid" aria-hidden="true"></canvas>
+  <div class="hero-text wrap">
+    <h1>Christopher<br>Liem</h1>
+    <p class="lede">{{ p.intro }}</p>
+    <p class="hero-links">
+      <a class="button" href="mailto:{{ site.email }}">Email me</a>
+      {% if site.linkedin != "" %}<a href="https://www.linkedin.com/in/{{ site.linkedin }}">LinkedIn</a>{% endif %}
+      {% if site.github != "" %}<a href="https://github.com/{{ site.github }}">GitHub</a>{% endif %}
+      {% if site.resume_pdf != "" %}<a href="{{ site.resume_pdf | relative_url }}">Download resume (PDF)</a>{% endif %}
+    </p>
+  </div>
+</section>
+
+<section id="education" class="section wrap">
+  <h2>Education</h2>
+  <ol class="timeline">
+    {% for school in p.education %}
+    <li class="job">
+      <p class="job-dates">{{ school.dates }}</p>
+      <div class="job-body">
+        <h3>{{ school.school }}</h3>
+        <ul class="degrees">
+          {% for d in school.degrees %}<li><span>{{ d.name }}</span>{% if d.date %}<span class="degree-date">{{ d.date }}</span>{% endif %}</li>{% endfor %}
+        </ul>
+        {% if school.gpa %}<p class="gpa">GPA {{ school.gpa }}</p>{% endif %}
+        {% if school.coursework %}<p class="coursework"><span class="coursework-label">{% if forloop.first %}Selected coursework:{% else %}Coursework:{% endif %}</span> {{ school.coursework | join: ", " }}</p>{% endif %}
+        {% if school.coursework_note %}<p class="coursework-note">{{ school.coursework_note }}</p>{% endif %}
+
+        {% if forloop.first %}
+        <div class="edu-extras">
+          <div>
+            <h4>Teaching</h4>
+            <ul class="plain dated">
+              {% for t in p.teaching %}<li><span class="item">{{ t.course }}</span><span class="when">{{ t.dates }}</span></li>{% endfor %}
+            </ul>
+          </div>
+          <div>
+            <h4>Activities</h4>
+            <ul class="plain">
+              {% for a in p.activities %}<li>{{ a }}</li>{% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+
+<section id="experience" class="section wrap">
+  <h2>Experience</h2>
+  <ol class="timeline">
+    {% for job in site.data.experience %}
+    <li class="job">
+      <p class="job-dates">{{ job.dates }}</p>
+      <div class="job-body">
+        <h3>{{ job.org }}</h3>
+        <p class="job-role">{{ job.role }}<span class="job-place">{{ job.place }}</span></p>
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+
+<section id="projects" class="section wrap">
+  <h2>Projects</h2>
+  <div class="projects">
+    {% for pr in site.data.projects %}
+    <article class="project{% if pr.featured %} project-featured{% endif %}">
+      <header>
+        <h3>{{ pr.name }}</h3>
+        <p class="project-meta">{% if pr.context %}{{ pr.context }}, {% endif %}{{ pr.dates }}</p>
+      </header>
+      <p class="project-summary">{{ pr.summary }}</p>
+      <ul class="tags" aria-label="Tools">
+        {% for t in pr.tags %}<li>{{ t }}</li>{% endfor %}
+      </ul>
+      {% if pr.links %}
+      <p class="project-links">
+        {% for l in pr.links %}<a href="{% if l.url contains '://' %}{{ l.url }}{% else %}{{ l.url | relative_url }}{% endif %}">{{ l.label }}</a>{% endfor %}
+      </p>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="publication" class="section wrap">
+  <h2>Publication</h2>
+  {% for pub in p.publications %}
+  <figure class="pub">
+    <blockquote>
+      <p><a href="{{ pub.url }}">{{ pub.title }}</a></p>
+    </blockquote>
+    <figcaption>
+      <p class="pub-authors">{{ pub.authors | replace: "C. Liem", "<strong>C. Liem</strong>" }}</p>
+      <p class="pub-venue"><em>{{ pub.venue }}</em> ({{ pub.year }})</p>
+      <p class="pub-note">{{ pub.note }}</p>
+    </figcaption>
+  </figure>
+  {% endfor %}
+</section>
+
+<section id="skills" class="section wrap">
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    {% for s in p.skills %}
+    <div class="skill-group">
+      <h3>{{ s.group }}</h3>
+      <p>{{ s.items | join: ", " }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>

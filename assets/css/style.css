@@ -1,0 +1,593 @@
+/* ---------- Tokens ---------- */
+/* Register the theme colors as real colors so they can animate between light and dark */
+@property --paper { syntax: "<color>"; inherits: true; initial-value: #f2f4f6; }
+@property --ink { syntax: "<color>"; inherits: true; initial-value: #18202b; }
+@property --muted { syntax: "<color>"; inherits: true; initial-value: #566273; }
+@property --rule { syntax: "<color>"; inherits: true; initial-value: #d3dae2; }
+@property --cell-free { syntax: "<color>"; inherits: true; initial-value: #dfe5ec; }
+@property --cell-unknown { syntax: "<color>"; inherits: true; initial-value: #e9edf1; }
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #1d4ed8; }
+@property --accent-ink { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+
+:root {
+  --paper: #f2f4f6;
+  --ink: #18202b;
+  --muted: #566273;
+  --rule: #d3dae2;
+  --cell-free: #dfe5ec;
+  --cell-unknown: #e9edf1;
+  --accent: #1d4ed8;
+  --accent-ink: #ffffff;
+
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --measure: 42rem;
+  --wide: 68rem;
+  color-scheme: light;
+}
+
+/* Dark theme: follows the device setting unless the visitor picked light,
+   or is forced on when the visitor picked dark with the toggle. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10161d;
+    --ink: #e4e9ef;
+    --muted: #98a3b1;
+    --rule: #26313d;
+    --cell-free: #1c2530;
+    --cell-unknown: #151c24;
+    --accent: #6e9bff;
+    --accent-ink: #0d1420;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #10161d;
+  --ink: #e4e9ef;
+  --muted: #98a3b1;
+  --rule: #26313d;
+  --cell-free: #1c2530;
+  --cell-unknown: #151c24;
+  --accent: #6e9bff;
+  --accent-ink: #0d1420;
+  color-scheme: dark;
+}
+
+/* Smooth theme switch: only while switching, so hovers and page load stay instant */
+:root.theme-transition {
+  transition: --paper 0.45s ease,
+    --ink 0.45s ease,
+    --muted 0.45s ease,
+    --rule 0.45s ease,
+    --cell-free 0.45s ease,
+    --cell-unknown 0.45s ease,
+    --accent 0.45s ease,
+    --accent-ink 0.45s ease;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 112%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+p { margin: 0 0 1rem; }
+ul { margin: 0; padding: 0; }
+
+a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, .button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--wide);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0.5rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0.5rem 0.75rem;
+  z-index: 10;
+}
+.skip:focus { left: 0.5rem; }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+}
+
+.nav-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 112%;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav ul {
+  display: flex;
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.nav ul a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.nav ul a:hover { color: var(--ink); }
+
+@media (max-width: 40rem) {
+  .nav { flex-wrap: wrap; padding-block: 0.6rem; gap: 0.25rem; }
+  .nav ul {
+    gap: 0.75rem;
+    width: 100%;
+    justify-content: space-between;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .nav ul::-webkit-scrollbar { display: none; }
+  .nav ul a { font-size: 0.82rem; }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Fade the grid out behind the text so the copy stays readable. */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--paper) 0%, var(--paper) 52%, color-mix(in srgb, var(--paper) 45%, transparent) 64%, transparent 76%);
+  pointer-events: none;
+}
+
+.hero-text {
+  position: relative;
+  z-index: 1;
+  padding-block: clamp(3.5rem, 9vw, 7rem) clamp(3rem, 7vw, 5.5rem);
+}
+
+.hero h1 {
+  font-size: clamp(3.25rem, 10vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.75rem;
+}
+
+.lede {
+  max-width: 34rem;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.focus {
+  list-style: none;
+  max-width: 34rem;
+  margin: 1.25rem 0 2rem;
+  border-top: 1px solid var(--rule);
+}
+.focus li {
+  padding: 0.55rem 0 0.55rem 1.4rem;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  color: var(--muted);
+}
+/* A filled cell, echoing the grid. */
+.focus li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.05rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--accent);
+}
+
+.hero-links, .contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+.button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-ink);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.7rem 1.15rem;
+  border-radius: 3px;
+}
+.button:hover { filter: brightness(1.08); }
+
+@media (max-width: 48rem) {
+  .hero {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-text {
+    order: 1;
+    padding-bottom: 2rem;
+  }
+  .hero-grid {
+    order: 2;
+    position: relative;
+    height: 200px;
+    border-top: 1px solid var(--rule);
+  }
+  .hero::after {
+    display: none;
+  }
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding-block: clamp(3.5rem, 7vw, 5.5rem) 0;
+}
+
+.section > h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.4rem);
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+/* ---------- Experience timeline ---------- */
+.timeline { list-style: none; margin: 0; padding: 0; }
+
+.job {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, var(--measure));
+  gap: 0 2.5rem;
+  padding-bottom: 1.1rem;
+}
+.job + .job { padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+
+.job-dates {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.job h3 { font-size: 1.35rem; }
+
+.job-role {
+  margin: 0.15rem 0 0;
+  font-weight: 500;
+}
+.job-place {
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 0.6rem;
+}
+
+.job ul, .project ul:not(.tags) {
+  padding-left: 1.1rem;
+}
+.job li, .project ul:not(.tags) li { margin-bottom: 0.45rem; }
+.job li::marker, .project li::marker { color: var(--muted); }
+
+.job-link { margin: 0.75rem 0 0; }
+
+@media (max-width: 48rem) {
+  .job { grid-template-columns: 1fr; }
+  .job-dates { margin: 0 0 0.35rem; }
+  .job-place { display: block; margin-left: 0; }
+}
+
+/* ---------- Projects ---------- */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 3rem;
+}
+
+.project {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+}
+
+.project-featured { border-top: 3px solid var(--accent); }
+.project-featured h3 { font-size: 1.55rem; }
+
+.project h3 { font-size: 1.2rem; }
+
+.project-meta {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0.3rem 0 0.75rem;
+}
+
+.project-summary { margin: 0; }
+
+.project-links {
+  display: flex;
+  gap: 1.1rem;
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+.tags li {
+  font-size: 0.85rem;
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 0.1rem 0.5rem;
+}
+
+@media (max-width: 48rem) {
+  .projects { grid-template-columns: 1fr; }
+}
+
+/* ---------- Publication ---------- */
+.pub {
+  margin: 0;
+  max-width: 50rem;
+}
+.pub blockquote {
+  margin: 0 0 1rem;
+}
+.pub blockquote p {
+  font-family: var(--display);
+  font-weight: 500;
+  font-stretch: 112%;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.2;
+  margin: 0;
+}
+.pub blockquote a { color: var(--ink); text-decoration-color: var(--accent); }
+.pub-authors { color: var(--muted); margin-bottom: 0.25rem; }
+.pub-authors strong { color: var(--ink); font-weight: 600; }
+.pub-note { max-width: var(--measure); }
+
+/* ---------- Teaching ---------- */
+.teaching {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 3rem;
+}
+.course h3 { font-size: 1.15rem; }
+.course-meta { color: var(--muted); margin: 0.25rem 0 0.6rem; font-size: 0.95rem; }
+
+@media (max-width: 48rem) {
+  .teaching { grid-template-columns: 1fr; }
+}
+
+/* ---------- Education ---------- */
+.degrees {
+  list-style: none;
+  margin: 0.2rem 0 0.4rem;
+  padding: 0;
+}
+.degrees li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.degree-date { color: var(--muted); font-weight: 400; white-space: nowrap; font-size: 0.95rem; }
+
+/* Education rows get more room so long degree names keep their date on the same line */
+#education .job { grid-template-columns: 11rem minmax(0, 54rem); }
+@media (max-width: 48rem) {
+  #education .job { grid-template-columns: 1fr; }
+}
+
+/* Lists inside education entries sit flush with the text, no bullet indent */
+.job .degrees,
+.job .plain { padding-left: 0; }
+.coursework { max-width: var(--measure); margin: 0.5rem 0 0.25rem; }
+.coursework-label { font-weight: 600; }
+
+/* Teaching and activities, side by side under the degree */
+.edu-extras {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  max-width: var(--measure);
+}
+.edu-extras h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.dated li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0 1rem;
+}
+.dated .item { min-width: 0; }
+.dated .when { color: var(--muted); white-space: nowrap; font-size: 0.95rem; }
+
+/* ---------- Skills: 2x2 grid ---------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem 3rem;
+}
+.skill-group h3 {
+  font-size: 1.05rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.skill-group p { color: var(--muted); margin: 0; }
+
+@media (max-width: 48rem) {
+  .edu-extras, .skills-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 30rem) {
+  .dated li { flex-direction: column; gap: 0; }
+}
+
+/* ---------- Skills ---------- */
+.background {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2.5rem 4rem;
+}
+
+.edu h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+.edu h4 {
+  font-size: 1rem;
+  margin: 1.5rem 0 0.4rem;
+}
+
+.degree {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.3rem;
+}
+.degree span { color: var(--muted); white-space: nowrap; }
+.gpa { color: var(--muted); }
+.coursework { margin-bottom: 0.25rem; }
+.coursework-note { color: var(--muted); font-size: 0.9rem; }
+
+.plain { list-style: none; }
+.plain li { margin-bottom: 0.3rem; }
+
+.skills { margin: 0; }
+.skills dt {
+  font-family: var(--display);
+  font-weight: 700;
+  font-stretch: 112%;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+.skills dt:first-child { padding-top: 0; border-top: 0; }
+.skills dd { margin: 0.25rem 0 0.9rem; color: var(--muted); }
+
+@media (max-width: 48rem) {
+  .background { grid-template-columns: 1fr; }
+}
+
+/* ---------- Contact and footer ---------- */
+.contact { padding-bottom: 4rem; }
+.contact > p { max-width: var(--measure); }
+.contact-links { margin-top: 1.5rem; }
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  padding-block: 1.5rem 2.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.site-footer p { margin: 0; }
+
+/* ---------- Light/dark toggle ---------- */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  margin-left: 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  flex: none;
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--muted); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.theme-toggle svg { width: 1.05rem; height: 1.05rem; }
+
+/* Show the moon in light mode (click for dark) and the sun in dark mode (click for light) */
+.theme-toggle .icon-sun { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+.nav ul { margin-left: auto; }
+
+@media (max-width: 40rem) {
+  .nav-name { order: 1; }
+  .theme-toggle { order: 2; margin-left: auto; width: 1.9rem; height: 1.9rem; }
+  .nav ul { order: 3; margin-left: 0; }
+}
+
+/* Teaching dates line up with the degree dates on the same right edge */
+#education .edu-extras { max-width: none; }

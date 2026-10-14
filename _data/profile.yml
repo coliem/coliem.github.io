@@ -1,0 +1,67 @@
+intro: >-
+  I’m a senior in EECS at MIT, starting my MEng in spring 2027. I'm drawn to robotics and autonomous systems,
+  distributed systems, and deep learning, occasionally dabbling in hardware as well.
+  When I’m not doing that, I’m probably climbing, running, taking photos, buried in a book,
+  or losing at some racquet sport.
+
+# Schools, most recent first. dates shows in the left column, like experience.
+# gpa, degrees (with optional date), coursework, and coursework_note are optional.
+education:
+  - school: Massachusetts Institute of Technology
+    dates: Sep 2023 – May 2028
+    gpa: 5.0/5.0
+    degrees:
+      - name: Master of Engineering in Computer Science and Electrical Engineering
+        date: Expected May 2028
+      - name: Bachelor of Science in Computer Science and Electrical Engineering
+        date: Expected May 2027
+    coursework:
+      - Navigation for Autonomous Vehicles (G)
+      - Robotic Manipulation (G)
+      - Distributed Systems (G)
+      - Deep Learning (G)
+      - TinyML (G)
+      - Computer Architecture (G)
+      - Secure Hardware Design (G)
+      - Multiagent Learning (G)
+      - Digital Systems (FPGA)
+      - Semiconductor Circuits
+    coursework_note: (G) marks graduate-level courses.
+
+  - school: Princeton University
+    dates: Sep 2022 – May 2023
+    degrees:
+      - name: Mathematics Dual Enrollment
+    coursework:
+      - MAT215 Single Variable Analysis
+      - MAT217 Honors Linear Algebra
+
+teaching:
+  - course: 6.1910 Computation Structures
+    role: Course Lab Assistant
+    dates: Feb 2026 – Present
+  - course: 6.3900 Introduction to Machine Learning
+    role: Course Lab Assistant
+    dates: Sep 2025 – Dec 2025
+
+publications:
+  - authors: I. I. Shuvo, C. D. Díaz-Marín, M. Christen, M. Lherbette, C. Liem, S. V. Boriskina
+    title: High-efficiency atmospheric water harvesting enabled by ultrasonic extraction
+    venue: Nature Communications 16, 9947
+    year: 2025
+    url: https://doi.org/10.1038/s41467-025-65586-2
+    note: Replaces heat with ultrasonic vibration to pull water out of hydrogel sorbents. I co-designed, prototyped, and tested the portable collection system.
+
+skills:
+  - group: Languages
+    items: [Python, C++, C, Go, TypeScript, JavaScript, SQL, Bash, MATLAB, SystemVerilog]
+  - group: ML and robotics
+    items: [PyTorch, TensorFlow, NumPy, Pandas, OpenCV, ROS2, Drake, OpenUSD, Foxglove]
+  - group: Software and tools
+    items: [Linux, Git, Docker, AWS, React, Next.js, Django, PostgreSQL, MongoDB, GoogleTest]
+  - group: Hardware
+    items: [FPGA, Vivado, Cadence Virtuoso, SOLIDWORKS]
+
+activities:
+  - MIT Climbing Team (Leadership)
+  - MIT Technique Photography

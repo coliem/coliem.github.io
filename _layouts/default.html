@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ site.description | strip }}">
+  <meta property="og:title" content="{{ site.title }}">
+  <meta property="og:description" content="{{ site.description | strip }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,500;112,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script>
+    // Apply a saved theme before the page paints, so there's no flash.
+    try { var t = localStorage.getItem("theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%231d4ed8'/%3E%3Crect x='3' y='3' width='4' height='4' fill='white'/%3E%3Crect x='9' y='9' width='4' height='4' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Sections">
+      <a class="nav-name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <ul>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publication">Publication</a></li>
+      </ul>
+      <button class="theme-toggle" type="button" aria-label="Switch color theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>© {{ site.time | date: "%Y" }} {{ site.author }}. Built with Jekyll.</p>
+  </footer>
+
+  <script>
+    // Light/dark toggle: flips the current theme and remembers the choice.
+    (function () {
+      var btn = document.querySelector(".theme-toggle");
+      if (!btn) return;
+      var root = document.documentElement;
+      var media = window.matchMedia("(prefers-color-scheme: dark)");
+      function current() { return root.getAttribute("data-theme") || (media.matches ? "dark" : "light"); }
+      function label() { btn.setAttribute("aria-label", current() === "dark" ? "Switch to light mode" : "Switch to dark mode"); }
+      label();
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+      var timer;
+      btn.addEventListener("click", function () {
+        var next = current() === "dark" ? "light" : "dark";
+        // Fade colors for this switch only, unless the visitor prefers reduced motion.
+        if (!reduce.matches) {
+          root.classList.add("theme-transition");
+          clearTimeout(timer);
+          timer = setTimeout(function () { root.classList.remove("theme-transition"); }, 500);
+        }
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+        label();
+        document.dispatchEvent(new Event("themechange"));
+      });
+      media.addEventListener("change", label);
+    })();
+  </script>
+  <script src="{{ '/assets/js/grid.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>
+</body>
+</html>

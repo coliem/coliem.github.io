@@ -1,0 +1,86 @@
+# Projects shown on the home page, in display order.
+# Each project:
+#   name, dates, tags, summary (one or two sentences)
+#   featured - optional; true adds an accent line on top
+#   links    - optional list of {label, url}; reports live in assets/reports/
+- name: Autonomous Racecar
+  dates: May 2025
+  tags: [Python, C++, ROS2, SLAM, LiDAR]
+  featured: true
+  summary: >-
+    My team of five built the full autonomy stack for a LiDAR- and camera-equipped RC car:
+    localization, mapping, path planning, and control. We placed 1st of 20+ teams in the final
+    search-and-capture challenge and 2nd in the 200 m race.
+  links:
+    - label: website
+      url: https://rss2025-7.github.io/website/labs/
+
+- name: DrawerSense
+  dates: Dec 2025
+  tags: [Python, Drake, Point clouds, SAM, RANSAC]
+  featured: true
+  summary: >-
+    A simulated robot arm with only a gripper-mounted camera that opens a drawer, finds a
+    requested object in the clutter inside, and lifts it out. I built the drawer-opening stage:
+    RANSAC plane fitting and antipodal grasp sampling to find and grip the handle, then a
+    compliant pull to slide the drawer open.
+  links:
+    - label: report
+      url: /assets/reports/6.4212-report.pdf
+
+- name: FPGA Real-Time Audio Equalizer
+  dates: Dec 2025
+  tags: [SystemVerilog, FPGA, I2S, AXI-Stream, cocotb]
+  summary: >-
+    An audio equalizer built entirely on an FPGA that you shape with hand gestures: 48 kHz
+    stereo audio is filtered in real time while the EQ curve and spectrum are drawn over a
+    720p HDMI camera feed. I built the audio path, from I2S input and output to an AXI-Stream
+    FFT pipeline with overlapping windowed frames, verified with cocotb testbenches.
+  links:
+    - label: demo
+      url: https://www.youtube.com/watch?v=3vQF7bQxSuU
+    - label: report
+      url: /assets/reports/6.205-report.pdf
+
+- name: Fault-Tolerant Sharded Key-Value Service
+  dates: May 2026
+  tags: [Go, Raft, RPC]
+  summary: >-
+    A key-value store that stays correct when servers crash or the network splits, built on my
+    own Raft implementation in Go with data sharded across replica groups that migrate live.
+    Verified with 80+ fault-injection tests.
+
+- name: RISC-V Neural-Network Inference Accelerator
+  dates: May 2025
+  tags: [Bluespec, RISC-V, SIMD]
+  summary: >-
+    A pipelined RISC-V processor tuned, hardware and software together, to run a neural network,
+    with a custom SIMD instruction and specialized caches. MNIST inference went from over 20 ms
+    to under 0.25 ms, more than 80x faster.
+
+- name: 65 nm CMOS Differential Amplifier
+  dates: May 2026
+  tags: [Cadence Virtuoso, Analog design]
+  summary: >-
+    An analog amplifier taken from schematic through layout to a chip fabricated by TSMC,
+    reaching 50 dB of gain on about 117 µW.
+
+- name: Team Strategies for Multiplayer Poker
+  dates: Dec 2025
+  tags: [Python, Game theory, PSRO, CFR]
+  summary: >-
+    Bots for a four-player poker variant where teammates can coordinate before each hand but
+    not during it. I co-designed our card-signaling heuristic and implemented Team-PSRO, which
+    grows a population of strategies through repeated best responses; it scored as more
+    exploitable than other teams' bots but held up well head-to-head.
+  links:
+    - label: report
+      url: /assets/reports/6.S890-report.pdf
+
+- name: MIT Opportunity Aggregator
+  dates: Jan 2026
+  tags: [TypeScript, React, Node.js, MongoDB]
+  summary: >-
+    MIT opportunities are scattered across Dormspam emails and the events calendar. My team of
+    three built one searchable feed that pulls in both automatically, with Google login and
+    saved listings.
